@@ -15,9 +15,12 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 
 import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.DateFormat;
 public class GUI extends JFrame{
    private JPanel panel;
-   private static JButton update;
+   private static JButton update, time;
    private static String currentSite;
    private static final String SLO_WEBSITE = "http://forecast.weather.gov/MapClick.php?CityName=San+Luis+Obispo&state=CA&site=LOX&lat=35.2565&lon=-120.621#.V0NeFXUrLCJ";
    private static final String TAC_WEBSITE = "http://forecast.weather.gov/MapClick.php?CityName=Tacoma&state=WA&site=SEW&textField1=47.2531&textField2=-122.443&e=1#.V0PxD3UrLCI";
@@ -28,14 +31,20 @@ public class GUI extends JFrame{
       panel = new JPanel();
       panel.setPreferredSize(new Dimension(320,240));
       update = new JButton("update");
+      time = new JButton("time");
       JButton slo = new JButton("SLO");
       JButton tac = new JButton("Tacoma");
+
       Weather weather = new Weather();
       update.addActionListener(weather);
       slo.addActionListener(weather);
       tac.addActionListener(weather);
       panel.add(update);
+      time.setPreferredSize(new Dimension(300,20));
+      panel.add(time);
+      slo.setPreferredSize(new Dimension(150,20));
       panel.add(slo);
+      tac.setPreferredSize(new Dimension(150,20));
       panel.add(tac);
       update.setFont(new Font("Times New Roman", Font.PLAIN, 35));
       panel.repaint();
@@ -67,12 +76,16 @@ public class GUI extends JFrame{
             int temp = getTemp(website, br);
             String wind = getWind(website, br);
             int[] highlow = firstTemp(website, br);
+
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            Date date = new Date();
             button.setText("<html>" + 
                "Temp: " + temp + "° F<br/>" 
                + wind + "<br/>"
                + "High: " + highlow[1] + "° F<br/>"
                + "Low: " + highlow[0] + "° F<br/>"
                + "<html/>");
+            time.setText("Updated: " + dateFormat.format(date));
          }catch(Exception error){
             error.printStackTrace();
             //(JButton)(e.getSource()).setText("No Connection");
