@@ -84,7 +84,8 @@ public class GUI extends JFrame{
                + wind + "<br/>"
                + "High: " + highlow[1] + "° F<br/>"
                + "Low: " + highlow[0] + "° F<br/>"
-               + "<html/>");
+               + "</html>");
+            //System.out.println(highlow[1] + " " + highlow[0]);
             time.setText("Updated: " + dateFormat.format(date));
          }catch(Exception error){
             error.printStackTrace();
@@ -119,7 +120,12 @@ public class GUI extends JFrame{
          for(int i = 0; i < 10; i++){
             br.readLine();
          }
-         return br.readLine().substring(16,25);
+         String line = br.readLine();
+         int index = 16;
+         while(!line.substring(index,index+3).equals("MPH") && !line.substring(index,index+3).equals("ear")){
+            index++;
+         }
+         return line.substring(16,index+3);
       }
       private int getTemp(URL website, BufferedReader br) throws Exception{ //line 173
          /*for(int i = 0; i < 173; i++){
