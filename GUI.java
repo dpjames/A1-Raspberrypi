@@ -20,7 +20,7 @@ public class GUI extends JFrame{
    private static JButton update;
    private static String currentSite;
    private static final String SLO_WEBSITE = "http://forecast.weather.gov/MapClick.php?CityName=San+Luis+Obispo&state=CA&site=LOX&lat=35.2565&lon=-120.621#.V0NeFXUrLCJ";
-   private static final String TAC_WEBSITE = "http://forecast.weather.gov/MapClick.php?lat=47.25261192540114&lon=-122.43704163696128#.V0PiTnUrLCI";
+   private static final String TAC_WEBSITE = "http://forecast.weather.gov/MapClick.php?CityName=Tacoma&state=WA&site=SEW&textField1=47.2531&textField2=-122.443&e=1#.V0PxD3UrLCI";
    public GUI(){
       super("GUI");
       this.setVisible(true);
@@ -106,13 +106,18 @@ public class GUI extends JFrame{
          for(int i = 0; i < 10; i++){
             br.readLine();
          }
-         return br.readLine().substring(16,30);
+         return br.readLine().substring(16,25);
       }
       private int getTemp(URL website, BufferedReader br) throws Exception{ //line 173
-         for(int i = 0; i < 173; i++){
+         /*for(int i = 0; i < 173; i++){
             br.readLine();
+         }*/
+         String line = br.readLine();
+         while(!line.contains("myforecast-current-lrg")){
+            line = br.readLine();
          }
-         int i = Integer.parseInt(br.readLine().substring(40,42));
+         //System.out.println(line);
+         int i = Integer.parseInt(line.substring(40,42));
          //System.out.println(i);
          return i;
       }
