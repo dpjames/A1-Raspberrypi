@@ -18,6 +18,9 @@ import java.util.Scanner;
 public class GUI extends JFrame{
    private JPanel panel;
    private static JButton update;
+   private static String currentSite;
+   private static final String SLO_WEBSITE = "http://forecast.weather.gov/MapClick.php?CityName=San+Luis+Obispo&state=CA&site=LOX&lat=35.2565&lon=-120.621#.V0NeFXUrLCJ";
+   private static final String TAC_WEBSITE = "http://forecast.weather.gov/MapClick.php?lat=47.25261192540114&lon=-122.43704163696128#.V0PiTnUrLCI";
    public GUI(){
       super("GUI");
       this.setVisible(true);
@@ -25,13 +28,21 @@ public class GUI extends JFrame{
       panel = new JPanel();
       panel.setPreferredSize(new Dimension(320,240));
       update = new JButton("update");
+      JButton slo = new JButton("SLO");
+      JButton tac = new JButton("Tacoma");
       Weather weather = new Weather();
       update.addActionListener(weather);
+      slo.addActionListener(weather);
+      tac.addActionListener(weather);
       panel.add(update);
+      panel.add(slo);
+      panel.add(tac);
       update.setFont(new Font("Times New Roman", Font.PLAIN, 35));
       panel.repaint();
       this.add(panel);
       this.pack();
+      
+      currentSite = SLO_WEBSITE;
       
    }
    public static void updateWeather(){
@@ -39,14 +50,23 @@ public class GUI extends JFrame{
    }
    private class Weather implements ActionListener{
       public void actionPerformed(ActionEvent e){
+         JButton button = (JButton)(e.getSource());
+         if(button.getText().equals("Tacoma")){
+            currentSite = TAC_WEBSITE;
+            updateWeather();
+            return;
+         }else if(button.getText().equals("SLO")){
+            currentSite = SLO_WEBSITE;
+            updateWeather();
+            return;
+         }
          try{
-            URL website = new URL("http://forecast.weather.gov/MapClick.php?CityName=San+Luis+Obispo&state=CA&site=LOX&lat=35.2565&lon=-120.621#.V0NeFXUrLCJ");
+            URL website = new URL(currentSite);
             InputStream is = website.openStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             int temp = getTemp(website, br);
             String wind = getWind(website, br);
             int[] highlow = firstTemp(website, br);
-            JButton button = (JButton)(e.getSource());
             button.setText("<html>" + 
                "Temp: " + temp + "° F<br/>" 
                + wind + "<br/>"
