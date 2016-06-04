@@ -14,8 +14,9 @@ public class IOControl{
       mic.addListener(new GList());
       
    }
-   private static void toggleLight(){
-      GList.handleGpioPinDigitalStateChangeEvent(null);
+   public static void toggleLight(){
+      GList l = new GList();
+      l.handleGpioPinDigitalStateChangeEvent(null);
    }
    
    

@@ -19,7 +19,7 @@ public class Alarm{
       return t;
    }
    public boolean isPast(){
-      ZonedDateTime time = ZonedDateTime.now(ZoneId.of("US/Pacific"));
+      ZonedDateTime time = ZonedDateTime.now(ZoneId.of("Atlantic/Azores"));
       return !(time.getMinute() < m || time.getHour()< h);
          
    }

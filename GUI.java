@@ -88,7 +88,7 @@ public class GUI extends JFrame{
             //System.out.println(highlow[1] + " " + highlow[0]);
             time.setText("Updated: " + dateFormat.format(date));
          }catch(Exception error){
-            error.printStackTrace();
+            //error.printStackTrace();
             //(JButton)(e.getSource()).setText("No Connection");
          }
       }
